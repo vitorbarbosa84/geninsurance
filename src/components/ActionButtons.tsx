@@ -9,10 +9,11 @@ type Action = {
 // Define the props for our component
 type ActionButtonsProps = {
   actions: Action[];
-  // We'll add an onActionClick handler in a future story
+  // NEW: Add the click handler function to our component's props
+  onActionClick: (action: Action) => void;
 };
 
-export function ActionButtons({ actions }: ActionButtonsProps) {
+export function ActionButtons({ actions, onActionClick }: ActionButtonsProps) {
   if (!actions || actions.length === 0) {
     return null; // Don't render anything if there are no actions
   }
@@ -21,7 +22,14 @@ export function ActionButtons({ actions }: ActionButtonsProps) {
     <Box sx={{ my: 2 }}>
       <Stack direction="row" spacing={2} flexWrap="wrap">
         {actions.map((action) => (
-          <Button key={action.id} variant="outlined" size="small">
+          <Button
+            key={action.id}
+            variant="outlined"
+            size="small"
+            // NEW: Add the onClick event to each button
+            // This calls the function passed down from the parent page, sending the specific action that was clicked
+            onClick={() => onActionClick(action)}
+          >
             {action.text}
           </Button>
         ))}
