@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
+// Use the public anon key, just like in the frontend code
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY! 
 );
 
 export async function POST(request: Request) {
@@ -18,8 +19,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, leadId: data.id });
   } catch (error) {
-    // This line fixes the "unused variable" error
-    console.error('Failed to submit lead:', error); 
+    console.error('Failed to submit lead:', error);
     return NextResponse.json({ error: 'Failed to submit lead' }, { status: 500 });
   }
 }
